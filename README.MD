@@ -1,0 +1,1 @@
+# Testing of SMARTS substructures by positive and negative smiles list
