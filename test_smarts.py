@@ -78,43 +78,48 @@ class Test(TestCase):
         test_structure_smarts(
             SmartsTest(
                 description="enon",
-                smarts="CC(C=C)=O",
-                positive_smiles=["CC(=O)C=C"],
-                negative_smiles=["CCC"],
+                smarts="CC(=O)C([C,#1,O])=C([C,#1,O])[C,#1,O]",
+                positive_smiles=["CC(=O)C=C", "CC(=O)C(O)=CC"],
+                negative_smiles=["CCC=O", "C=CCC=O"],
             )
         )
-        # still todo
-        # test_structure_smarts(
-        #     SmartsTest(
-        #         description="enacid",
-        #         smarts="O=C(O[C,H])C([C,H,O])=C([C,H,O])[C,H,O]",
-        #         positive_smiles=[""],
-        #         negative_smiles=[""],
-        #     )
-        # )
-        # test_structure_smarts(
-        #     SmartsTest(
-        #         description="epoxyketone",
-        #         smarts="O=C([#6])C1C([#6])O1",
-        #         positive_smiles=[""],
-        #         negative_smiles=[""],
-        #     )
-        # )
-        # test_structure_smarts(
-        #     SmartsTest(
-        #         description="anthraquinone",
-        #         smarts="c12c([*])c([*])c([*])c([*])c1C(=O)c3c([*])c([*])c([*])c([*])c3C2=O",
-        #         smarts="c12ccccc1C(=O)c3ccccc3C2=O"
-        #         positive_smiles=[""],
-        #         negative_smiles=[""],
-        #     )
-        # )
-        # test_structure_smarts(
-        #     SmartsTest(
-        #         description="naphtochinon",
-        #         smarts="O=C-1-C([C,H,O])=C([C,H,O])-C(=[O])-c:2:c([*]):c([*]):c([*]):c([*]):c-1:2",
-        #         positive_smiles=[""],
-        #         negative_smiles=[""],
-        #     )
-        # )
+        test_structure_smarts(
+            SmartsTest(
+                description="enacid",
+                smarts="[C,#1]OC(=O)C([C,#1,O])=C([C,#1,O])[C,#1,O]",
+                positive_smiles=["COC(=O)C=C(O)C"],
+                negative_smiles=["CCC=O"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="epoxyketone",
+                smarts="O=C([#6])C1C([#6])O1",
+                positive_smiles=["O=C(C)C1C(C)O1", "O=C(c1ccccc1)C1C(C)O1"],
+                negative_smiles=["CC=O"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="anthraquinone",
+                smarts="c12ccccc1C(=O)c3ccccc3C2=O",
+                positive_smiles=[
+                    "c12cc(C)c(O)c(C)c1C(=O)c3c(C)cccc3C2=O",
+                    "COC1=CC=CC2=C1C(=O)C3=C(C2=O)C=CC=C3O",
+                    "CC1=CC2=C(C(=C1)O)C(=O)C3=C(C2=O)C=C(C=C3O)O",
+                ],
+                negative_smiles=["CC=O"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="naphtochinon",
+                smarts="O=C-1-C([C,#1,O])=C([C,#1,O])-C(=[O])-c:2:c:c:c:c:c-1:2",
+                positive_smiles=[
+                    "O=C-1-C(O)=C(C)-C(=O)-c:2:c:c:c:c:c-1:2",
+                    "C1=CC=C2C(=C1)C(=O)C=C(C2=O)C",
+                ],
+                negative_smiles=["CC=O"],
+            )
+        )
         print("All smarts tested successfully")
