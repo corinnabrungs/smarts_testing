@@ -122,4 +122,35 @@ class Test(TestCase):
                 negative_smiles=["CC=O"],
             )
         )
+        test_structure_smarts(
+            SmartsTest(
+                description="prim_sec_amine",
+                smarts="[C]N([#1])[C,#1]",
+                positive_smiles=[
+                    "CN",
+                    "CNC",
+                ],
+                negative_smiles=["CC=O"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="hydroxy-amide",
+                smarts="CC(=O)N([OH])C",
+                positive_smiles=[
+                    "CC(=O)N(O)C",
+                ],
+                negative_smiles=["CC=O"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="n_hydroxy_pyrrol",
+                smarts="[OH]n1cccc1",
+                positive_smiles=[
+                    "On1cccc1",
+                ],
+                negative_smiles=["CC=O"],
+            )
+        )
         print("All smarts tested successfully")
