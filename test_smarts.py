@@ -72,7 +72,7 @@ class Test(TestCase):
                 description="terminal_alkene",
                 smarts="[$([CX3H2]=[C]([#6,#1])[#6])]",
                 positive_smiles=["CC(=C)C", "C(=C)C"],
-                negative_smiles=["C=C"],
+                negative_smiles=["C=C", "CC=CC"],
             )
         )
         test_structure_smarts(
