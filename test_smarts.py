@@ -42,14 +42,6 @@ def count_substructure_matches(smarts_mol, smiles):
 
 
 class Test(TestCase):
-    def test_extract_smarts_from_smiles(self):
-        from rdkit.Chem import rdFMCS
-
-        mols = [Chem.MolFromSmiles("CC(=C)C"), Chem.MolFromSmiles("CC(=C)")]
-        smarts1 = rdFMCS.FindMCS(mols).smartsString
-        smarts2 = rdFMCS.FindMCS(mols, ringMatchesRingOnly=True).smartsString
-        print(f"{smarts1}+{smarts2}")
-
     def test_smarts(self):
         test_structure_smarts(
             SmartsTest(
@@ -125,3 +117,4 @@ class Test(TestCase):
         #         negative_smiles=[""],
         #     )
         # )
+        print("All smarts tested successfully")
