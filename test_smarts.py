@@ -14,6 +14,7 @@ class SmartsTest:
 
     def __post_init__(self):
         self.smarts_mol = Chem.MolFromSmarts(self.smarts)
+        Chem.GetSSSR(self.smarts_mol)
 
 
 def test_structure_smarts(case: SmartsTest):
@@ -41,12 +42,86 @@ def count_substructure_matches(smarts_mol, smiles):
 
 
 class Test(TestCase):
+    def test_extract_smarts_from_smiles(self):
+        from rdkit.Chem import rdFMCS
+
+        mols = [Chem.MolFromSmiles("CC(=C)C"), Chem.MolFromSmiles("CC(=C)")]
+        smarts1 = rdFMCS.FindMCS(mols).smartsString
+        smarts2 = rdFMCS.FindMCS(mols, ringMatchesRingOnly=True).smartsString
+        print(f"{smarts1}+{smarts2}")
+
     def test_smarts(self):
         test_structure_smarts(
             SmartsTest(
                 description="aldehyde",
                 smarts="[CX3H1](=O)[CH2]C",
                 positive_smiles=["CCC=O"],
-                negative_smiles=["CC(=O)OH", "CC(=O)C"],
+                negative_smiles=["CC(=O)O", "CCC(=O)C"],
             )
         )
+        test_structure_smarts(
+            SmartsTest(
+                description="aldehyde2",
+                smarts="O=[CH1][CH2]C",
+                positive_smiles=["CCC=O", "CCCCCC=O"],
+                negative_smiles=["CC(=O)O", "CCC(=O)C"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="terminal_alkene",
+                smarts="[$([CX3H2]=[C]([#6,#1])[#6])]",
+                positive_smiles=["CC(=C)C", "C(=C)C"],
+                negative_smiles=["C=C"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="beta_lactone",
+                smarts="O=C1OCC1",
+                positive_smiles=["C1COC1=O", "CCCC1COC1=O"],
+                negative_smiles=["CC1CCC(=O)O1"],
+            )
+        )
+        test_structure_smarts(
+            SmartsTest(
+                description="enon",
+                smarts="CC(C=C)=O",
+                positive_smiles=["CC(=O)C=C"],
+                negative_smiles=["CCC"],
+            )
+        )
+        # still todo
+        # test_structure_smarts(
+        #     SmartsTest(
+        #         description="enacid",
+        #         smarts="O=C(O[C,H])C([C,H,O])=C([C,H,O])[C,H,O]",
+        #         positive_smiles=[""],
+        #         negative_smiles=[""],
+        #     )
+        # )
+        # test_structure_smarts(
+        #     SmartsTest(
+        #         description="epoxyketone",
+        #         smarts="O=C([#6])C1C([#6])O1",
+        #         positive_smiles=[""],
+        #         negative_smiles=[""],
+        #     )
+        # )
+        # test_structure_smarts(
+        #     SmartsTest(
+        #         description="anthraquinone",
+        #         smarts="c12c([*])c([*])c([*])c([*])c1C(=O)c3c([*])c([*])c([*])c([*])c3C2=O",
+        #         smarts="c12ccccc1C(=O)c3ccccc3C2=O"
+        #         positive_smiles=[""],
+        #         negative_smiles=[""],
+        #     )
+        # )
+        # test_structure_smarts(
+        #     SmartsTest(
+        #         description="naphtochinon",
+        #         smarts="O=C-1-C([C,H,O])=C([C,H,O])-C(=[O])-c:2:c([*]):c([*]):c([*]):c([*]):c-1:2",
+        #         positive_smiles=[""],
+        #         negative_smiles=[""],
+        #     )
+        # )
